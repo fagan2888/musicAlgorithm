@@ -99,7 +99,9 @@ def number_format(df, columns=[], precision=2, **kwcolumns):
                 df[k] = df[k].map(("{:.%df}" % (v)).format)
     return df
 
-def batch(db, table, df_new, df_old, delete=True, timestamp=True):
+def batch(dbname, tablename, df_new, df_old, delete=True, timestamp=True):
+    db = creat_engine(dbname)
+    table = Table(tablename, MetaData(bind = db), autoload = True)
     try:
         db = db.connect()
         table = Table(table.name, MetaData(bind=db), autoload=True)
